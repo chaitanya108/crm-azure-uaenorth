@@ -1,0 +1,193 @@
+Spark Internals & Execution
+Explain Spark architecture end-to-end.
+What happens internally when a Spark SQL query executes?
+Catalyst Optimizer vs AQE?
+What causes a shuffle?
+Narrow vs wide transformation?
+What is speculative execution and when does it help?
+How do you identify and fix data skew?
+Explain Delta Lake internals.
+What happens internally during a Delta MERGE?
+Design CDC ingestion with INSERT/UPDATE/DELETE.
+Design SCD Type 2 for a 500-million-row customer table.
+A 30-minute job suddenly takes 2 hours. Walk me through your RCA.
+How would you size a Databricks cluster?
+Design a secure enterprise Databricks lakehouse.
+Databricks cost increased 40%. How would you investigate?
+Explain Driver, Executor, Cluster Manager, Job, Stage and Task with a real example.
+What is the difference between a Spark job, stage and task?
+What exactly creates a stage boundary in Spark?
+Explain narrow vs wide transformations with examples.
+What happens when you call:
+df.groupBy("customer_id").count()
+internally?
+What happens when you call:
+df.join(df2, "customer_id")
+internally?
+What is a shuffle? Explain what happens during shuffle internally.
+Why is shuffle expensive?
+What are shuffle read and shuffle write?
+What happens if one executor crashes in the middle of a Spark job?
+How does Spark provide fault tolerance?
+What is lineage in Spark?
+What is lazy evaluation, and why does Spark use it?
+What is the difference between cache(), persist() and checkpoint()?
+When would caching actually make a Spark job slower?
+Spark Performance & Optimization
+Your Spark job has 200 tasks, but one task takes 30 minutes while the others finish in 2 minutes. What is happening?
+How do you identify data skew using Spark UI?
+How would you fix a skewed join?
+When would you use broadcast join?
+What happens if you broadcast a table that is too large?
+Broadcast join vs shuffle hash join vs sort-merge join?
+How does Spark decide which join strategy to use?
+What is partition pruning?
+What is predicate pushdown?
+What is column pruning?
+Your table has 500 columns but your query needs only 5. How would Spark optimize this?
+You have 10 million small files. What problems can this create?
+How would you solve the small-file problem in Databricks?
+repartition() vs coalesce()?
+When would you use:
+repartition("customer_id")
+instead of:
+repartition(100)
+Why can excessive partitioning hurt performance?
+What is spill to disk in Spark?
+How would you troubleshoot executor OOM?
+What causes excessive GC time in Spark?
+Your Spark job is using only 20% CPU but is still very slow. What would you investigate?
+AQE / Catalyst
+Explain Catalyst Optimizer end-to-end.
+What is an unresolved logical plan?
+Logical plan vs physical plan?
+What is predicate pushdown and where does it happen?
+What is AQE?
+How does AQE handle data skew?
+How does AQE handle small shuffle partitions?
+How can AQE change a join strategy at runtime?
+Catalyst vs AQE — give me a real-world example of each.
+Can AQE solve every Spark performance problem? Why not?
+Delta Lake Internals
+Explain Delta Lake architecture.
+What is _delta_log?
+What is stored inside Delta transaction-log JSON files?
+What is a Delta checkpoint?
+Why does Delta need checkpoints?
+How does Delta provide ACID transactions?
+Explain optimistic concurrency control in Delta.
+Two jobs update the same Delta table at the same time. What happens?
+What happens internally when you execute:
+UPDATE table SET status = 'ACTIVE' WHERE customer_id = 100;
+What happens internally during a Delta DELETE?
+What happens internally during a Delta MERGE?
+Delta Lake vs Parquet?
+Delta Lake vs traditional RDBMS?
+What is Time Travel and how does it work?
+What is VACUUM?
+Why can aggressive VACUUM be dangerous?
+OPTIMIZE vs VACUUM?
+What is data skipping?
+What is Z-Ordering, and when would you use it?
+What is liquid clustering, and how is it different from traditional partitioning/Z-Ordering?
+CDC / SCD
+Source sends:
+INSERT
+UPDATE
+DELETE
+Design the complete Databricks CDC pipeline.
+How do you handle duplicate CDC events?
+How do you handle out-of-order CDC events?
+What happens if the same update event arrives twice?
+How do you make a CDC pipeline idempotent?
+CDC source is generating 100 million events/day. How would you design the pipeline?
+Explain SCD Type 1 vs Type 2.
+Implement SCD Type 2 using Delta MERGE.
+How do you identify whether a record actually changed?
+Why would you use a hash comparison in SCD Type 2?
+What happens if the source sends the same record twice?
+How would you handle late-arriving CDC events?
+How do you handle deletes in SCD Type 2?
+Design SCD Type 2 for a 500-million-row customer table.
+How would you optimize a MERGE against a 500-million-row Delta table?
+Architecture / Solution Design
+Design a Databricks platform for Salesforce + SAP + MySQL + APIs.
+You have 100 MySQL tables. Design a reusable ingestion framework.
+How would you make the ingestion framework metadata-driven?
+How would you handle 1000 tables instead of 100?
+Source adds a new column without informing you. What happens?
+Source changes a column datatype. How do you handle it?
+Source suddenly stops sending data. How would you detect it?
+Source sends 10 million records but only 20,000 changed. How do you avoid a full load?
+How would you design Bronze → Silver → Gold?
+What logic belongs in Bronze vs Silver vs Gold?
+Would you allow business transformations in Bronze? Why?
+Batch vs streaming — how would you decide?
+When would you use Structured Streaming instead of batch?
+How would you design a pipeline that needs 15-minute latency?
+How would you design for 99.9% pipeline availability?
+RCA / Production Scenarios
+A job that normally takes 30 minutes suddenly takes 2 hours. Walk me through your RCA.
+A job is failing with executor OOM. What do you check?
+A job is failing with driver OOM. What do you check?
+One stage has extremely high shuffle. What do you investigate?
+One task is much slower than all other tasks. What do you investigate?
+Your pipeline processed the same data twice. How do you prevent it?
+Target has duplicate records. How would you identify the root cause?
+Source has 10 million records and target has 9.5 million. How do you investigate?
+Your pipeline succeeded but the data is wrong. How do you troubleshoot?
+A downstream job started before the upstream job completed. How would you design dependencies?
+A pipeline failed halfway through. How do you restart it safely?
+How would you design retry and failure handling?
+How would you make a pipeline restartable without duplicating data?
+How would you monitor pipeline health?
+What metrics would you monitor for a production Spark job?
+Cluster / Infrastructure
+How do you decide driver size vs worker size?
+How do you decide the number of workers?
+What factors influence cluster sizing?
+What happens if you have too few partitions?
+What happens if you have too many partitions?
+How do you decide spark.sql.shuffle.partitions?
+Fixed cluster vs autoscaling cluster?
+Job cluster vs all-purpose cluster?
+When would you use Photon?
+When would you use serverless?
+Your cluster is large but the job is still slow. Why?
+Governance / Security
+How would you secure an enterprise Databricks environment?
+Explain Unity Catalog architecture.
+Catalog vs schema vs table?
+Managed table vs external table?
+How would you implement RBAC?
+How would you implement row-level security?
+How would you implement column-level masking?
+How would you manage secrets?
+How would you prevent developers from accessing production data?
+How would you implement DEV → QA → PROD isolation?
+How would you implement audit and lineage?
+Cost Optimization
+Your Databricks bill suddenly increased by 40%. Walk me through your investigation.
+How do you identify the most expensive jobs?
+How do you reduce Spark job cost without impacting SLA?
+How does Photon impact cost/performance?
+How can inefficient joins increase Databricks cost?
+How can small files increase cost?
+How would you optimize a pipeline that runs every 15 minutes?
+Would you choose a larger cluster for a shorter duration or a smaller cluster for a longer duration?
+Consultant-Level Questions
+Client says their Databricks platform is slow. What questions do you ask before proposing a solution?
+Client wants everything in real-time. Would you recommend streaming everywhere? Why or why not?
+Client wants the cheapest possible Databricks architecture. How would you approach it?
+Client wants zero data loss. How would you design the platform?
+Client wants zero downtime during deployment. How would you design CI/CD?
+Business says the dashboard is showing incorrect numbers. How do you approach the problem?
+You inherited a Databricks platform with 500 pipelines and no documentation. What would you do in the first 30 days?
+How would you review another engineer's Databricks architecture?
+When would you say NO to a client's proposed architecture?
+How do you balance performance, cost, reliability and maintainability?
+Tell me about a production issue you solved and how you performed the RCA.
+Tell me about a time you improved a pipeline's performance. How did you measure the improvement?
+Tell me about a technical decision where you had multiple options. How did you choose one?
+If a junior engineer proposes an inefficient architecture, how would you handle it?
+How would you explain a complex Spark/Databricks problem to a non-technical client?
